@@ -1,0 +1,7 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "dbname": "saoe",
+    "user": "root",
+    "pass": "1234"
+}
