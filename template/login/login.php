@@ -1,5 +1,5 @@
 <div class="hdeck">
-    <div class="title">Olá, <?=ucfirst($_SESSION['tipo']);?>.</div>
+    <div class="title">Olá, <?=ucfirst($_SESSION['type']);?>.</div>
     <div class="description">Insira seus dados de login.</div>
     <div class="option">
         Não possui um cadastro? <a href="./registro">Registrar-se</a>

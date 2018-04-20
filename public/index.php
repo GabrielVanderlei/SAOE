@@ -24,7 +24,7 @@
     });
     
     $router -> GET('/logout', function(){
-        $controller = new UserController();
+        $controller = new UserController('off');
         $controller -> Logout();
     });
 

@@ -25,8 +25,11 @@ class DatabaseHelper {
                     'dbname='.$array['dbname'].';',
                 $array['user'],
                 $array['pass'],
-                array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
-            );  
+                array(
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+                    PDO::ATTR_EMULATE_PREPARES => 1 
+                    ));
+              
 
         }  catch (Exception $e){
             die($e -> getMessage());
@@ -39,7 +42,9 @@ class DatabaseHelper {
         try{
             $sth = $this -> db -> prepare($sql);
             $sth -> execute();
-             $res =  $sth -> fetchAll();
+
+            $res =  $sth -> fetchAll();
+            if(!$res) $_SESSION['sql_err'] = ($sth -> errorInfo());
 
             if(!empty($fn)){
                     $i = 0;

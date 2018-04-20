@@ -11,9 +11,10 @@
       public $script;
       public $config;
       public $style;
+      public $user;
+      public $dados;
       
       public function __construct(){
-          session_start();
 
           $this -> config = [];
           
@@ -27,13 +28,8 @@
          $this -> setConfig([
                 'script' => array(
                     ['text/javascript', $this->script['0']],
-                    ['text/javascript', $this->script['1']],
-                    ['text/javascript', $this->script['2']]
-                ),
-
-                'link' => array(
-                    ['stylesheet', $this->style['0']]
                 )
+
            ]);
       }
       
@@ -111,6 +107,24 @@
       }
 
       public function User($data){
+          if(empty($this -> dados)){
+              $model = new Model;
+              $model -> setOrdem("senha");
+              $model -> consultarBanco(
+                "usuarios", 
+                " WHERE email='".$_SESSION['usuario']['email']."' AND senha='".$_SESSION['usuario']['senha']."' ");
+              
+              $dd = $model -> verDados();
+              if(!empty($dd)){
+                $_SESSION['usuario'] = $dd['usuarios']['senha'][$_SESSION['usuario']['senha']];
+              }
+
+              else{
+                  exit("b");
+                  $_SESSION['log_err'] = "Token expirado";
+                  header("location: ../logout");}
+          }
+
           return $_SESSION['usuario'][$data];
       }
    }
