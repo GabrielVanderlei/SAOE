@@ -16,6 +16,24 @@
             }
         }
 
+<<<<<<< HEAD
+=======
+        private function Prepare($str, $type){
+            // Retorna apenas letras e números
+            if($type == 'email') $alt = '|@|.';
+            else $alt = '';
+
+            $secure = preg_replace('/[^[:alnum:]'.$alt.'_]/', '',$str);
+            $secure = utf8_encode($secure);
+            return $secure;
+        }
+
+        private function Senha($email, $senha){
+            $secure = md5(sha1($email).sha1($senha));
+            return $secure;
+        }
+
+>>>>>>> c82b1ff3be6cb1ebe698464ffd7d5437fc227e6b
         // Inicializando a função.
         public function __construct($type='off'){
             $this -> controller = new Controller();
@@ -108,6 +126,7 @@
           if(!$this -> Verificar($_POST['senha'], 'senha')){ $_SESSION['error'] = 'Sua senha não cumpre as exigências requiridas.';header('location: registro');exit();};
 
           $form = [
+<<<<<<< HEAD
             "email" => $this->controller->Prepare($_POST['email'], 'email'),
             "senha" => $this->controller->Senha($_POST['email'], $_POST['senha']),
             "tipo" => $this->controller->Prepare($_POST['tipo'], 'tipo'),   
@@ -127,6 +146,27 @@
             
             "img" => $this->controller->Prepare($_POST['img'], 'string'),
             "lattes" => $this->controller->Prepare($_POST['lattes'], 'string'),
+=======
+            "email" => $this -> Prepare($_POST['email'], 'email'),
+            "senha" => $this -> Senha($_POST['email'], $_POST['senha']),
+            "tipo" => $this -> Prepare($_POST['tipo'], 'tipo'),   
+            "nascimento" => $this -> Prepare($_POST['nascimento'], 'tipo'),   
+            
+            "nome" => $this -> Prepare($_POST['nome'], 'tipo'),   
+            "sobrenome" => $this -> Prepare($_POST['sobrenome'], 'tipo'),   
+            "telefone" => $this -> Prepare($_POST['telefone'], 'tipo'),   
+            
+            "rg" => $this -> Prepare($_POST['rg'], 'rg'),
+            "cpf" => $this -> Prepare($_POST['cpf'], 'cpf'),
+            
+            "cep" => $this -> Prepare($_POST['cep'], 'cep'),
+            "rua" => $this -> Prepare($_POST['rua'], 'cep-logradouro'),
+            "bairro" => $this -> Prepare($_POST['bairro'], 'cep-bairro'),
+            "estado" => $this -> Prepare($_POST['estado'], 'cep-estado'),
+            
+            "img" => $this -> Prepare($_POST['img'], 'string'),
+            "lattes" => $this -> Prepare($_POST['lattes'], 'string'),
+>>>>>>> c82b1ff3be6cb1ebe698464ffd7d5437fc227e6b
             "ativo" => (($_SESSION['type'] == 'palestrante')?1:0)];
 
           $model = new Model;
