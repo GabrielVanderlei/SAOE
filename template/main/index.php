@@ -1,30 +1,28 @@
-<div class="main">
-    <div class="box">
-        <div class="we">SOAE</div>
-        <div class="title">Primeiro COINTER de 2018</div>
-    </div>
-    <div class="escolha">
-        
-        <div class="option">
-            <div class='name'>Sou palestrante.</div>
-            <div class="desc">Quero enviar algum trabalho para o evento ou verificar o estado dos trabalhos enviados.</div>
-            <a href="palestrante/login" class="button">Login</a>
-            <a href="palestrante/registro" class="button">Registro</a>
+<div class="jumbotron bg-light p-5">
+    <div class="row">
+        <div class="col p-3">
+            <div class="btn-group mb-2" role="group" aria-label="Login ou registro">
+                <a href="palestrante/login" class="btn btn-primary">Login</a>
+                <a href="palestrante/registro" class="btn btn-dark">Registro</a>
+            </div>
+            <h2>Sou palestrante.<br />
+            <small>Quero enviar algum trabalho para o evento ou verificar o estado dos trabalhos enviados.</small></h2>
         </div>
-
-        <div class="option">
-            <div class='name'>Sou avaliador.</div>
-            <div class="desc">Sou o responsável pela avaliação dos trabalhos enviados.</div>
-            <a href="avaliador/login" class="button">Login</a>
-            <a href="avaliador/registro" class="button">Registro</a>
+        <div class="col p-3">
+            <div class="btn-group mb-2" role="group" aria-label="Login ou registro">
+                <a href="avaliador/login" class="btn btn-primary">Login</a>
+                <a href="avaliador/registro" class="btn btn-dark">Registro</a>
+            </div>
+            <h2>Sou avaliador.<br />
+            <small>Sou o responsável pela avaliação dos trabalhos enviados.</small></h2>
         </div>
-
-        <div class="option">
-            <div class='name'>Sou organizador.</div>
-            <div class="desc">Sou um dos administradores do evento.</div>
-            <a href="organizador/login" class="button">Login</a>
-            <a href="organizador/registro" class="button">Registro</a>
+        <div class="col p-3">
+            <div class="btn-group mb-2" role="group" aria-label="Login ou registro">
+                <a href="organizador/login" class="btn btn-primary">Login</a>
+                <a href="organizador/registro" class="btn btn-dark">Registro</a>
+            </div>
+            <h2>Sou organizador.<br />
+            <small>Sou um dos administradores do evento.</small></h2>
         </div>
-    
     </div>
 </div>

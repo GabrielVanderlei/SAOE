@@ -33,11 +33,11 @@
       }
       
       private function base($data=''){
-          include $_SERVER['DOCUMENT_ROOT']."/template/basic/head.php";
+          include realpath(__DIR__ . '/..')."/template/basic/head.php";
       }
       
       private function rodape(){
-          include $_SERVER['DOCUMENT_ROOT']."/template/basic/footer.php";
+          include realpath(__DIR__ . '/..')."/template/basic/footer.php";
       }
       
       
@@ -45,9 +45,9 @@
           
           $config = $this -> config;
           $data = $this -> data;
-
-          if(file_exists($_SERVER['DOCUMENT_ROOT']."/template/".$this -> config['template'])){
-            include $_SERVER['DOCUMENT_ROOT']."/template/".$this -> config['template'];
+          
+          if(file_exists(realpath(__DIR__ . '/..')."/template/".$this -> config['template'])){
+            include realpath(__DIR__ . '/..')."/template/".$this -> config['template'];
           }
           else{
               $this -> controller -> Erro();

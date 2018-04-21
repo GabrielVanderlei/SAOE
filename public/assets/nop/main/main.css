@@ -1,0 +1,36 @@
+.escolha {
+    text-align:  center;
+    margin-top:  6%;
+}
+
+.option {
+    display: block;
+    margin: 20px 10px;
+    text-align:  left;
+    padding: 20px 21%;
+}
+
+.name {
+    font-size:  27px;
+    font-weight:  bold;
+}
+
+.desc {
+    font-size: 25px;
+    line-height: 39px;
+    margin: 6px 0;
+}
+
+a.button {
+    text-decoration:  none;
+    color:  white;
+    background:  black;
+    padding: 5px 46px;
+    text-align:  center;
+    margin: 9px 9px 9px 0px;
+    display:  inline-block;
+    border:  none;
+    border-radius: 30px;
+    font-size:  20px;
+}
+

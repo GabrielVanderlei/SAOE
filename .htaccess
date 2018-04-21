@@ -2,4 +2,7 @@
     Options -MultiViews
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ /public/index.php [QSA,L] 
+    RewriteRule ^ public/index.php [QSA,L]
+    
+    php_value upload_max_filesize 40M
+    php_value post_max_size 42M 

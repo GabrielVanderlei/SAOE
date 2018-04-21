@@ -11,29 +11,28 @@
       public $script;
       public $config;
       public $style;
+      public $user;
+      public $dados;
       
       public function __construct(){
-          session_start();
 
           $this -> config = [];
-          
-          $this -> script = array(
+
+          $this -> script = [
               '0' => '/assets/js/libs/jquery/jquery.min.js',
-              );
+              ];
               
-          $this -> style = array(
-              );
+          $this -> style = [
+              '0' => '/assets/css/basic/header.css'
+              ];
         
          $this -> setConfig([
-                'script' => array(
+                'script' => [
                     ['text/javascript', $this->script['0']],
-                    ['text/javascript', $this->script['1']],
-                    ['text/javascript', $this->script['2']]
-                ),
-
-                'link' => array(
+                ],
+                'link' => [
                     ['stylesheet', $this->style['0']]
-                )
+                ]
            ]);
       }
       
@@ -82,7 +81,7 @@
       }
 
       public function Config($file, $opt=false){
-          $file = file_get_contents($_SERVER['DOCUMENT_ROOT']."/configuration/".$file.".json");
+          $file = file_get_contents(realpath(__DIR__ . '/..')."/configuration/".$file.".json");
           $json = json_decode($file, $opt);
           return $json;
       }
@@ -106,11 +105,98 @@
       }
 
       public function verificarLogin($lchannel = 0){
-          if(!isset($_SESSION['usuario'])){ if($lchannel == 0){ $_SESSION['error'] = 'Você não está logado.'; header("location: login"); }}
-          else{if($lchannel){ header("location: painel"); }}
+        /*
+        0 -> Apenas usuários
+        1 -> Páginas normais
+        */
+        
+        switch($lchannel){
+            case 0:
+                if(!isset($_SESSION['usuario'])){
+                    header("location: logout");}
+                break;
+            case 1:
+                if(isset($_SESSION['usuario'])){
+                    header("location: ".$this->Config("saoe")->{"public"}."/".$_SESSION['type']."/painel");
+                }
+                break;
+        }
       }
 
       public function User($data){
-          return $_SESSION['usuario'][$data];
-      }
+
+          if(isset($_SESSION['usuario'])){
+              if(empty($this -> dados)){
+                  $model = new Model;
+                  $model -> setOrdem("senha");
+                  $model -> consultarBanco(
+                    "usuarios", 
+                    " WHERE email='".$_SESSION['usuario']['email']."' AND senha='".$_SESSION['usuario']['senha']."' ");
+              
+                  $dd = $model -> verDados();
+                  if(!empty($dd)){
+                    $_SESSION['usuario'] = $dd['usuarios']['senha'][$_SESSION['usuario']['senha']];
+                  }
+
+                  else{
+                      $_SESSION['log_err'] = "Token expirado";
+                      session_destroy();}
+              }
+
+              $this->dados=1;
+              if(empty($_SESSION['usuario'][$data])) return 0;
+              return $_SESSION['usuario'][$data];
+          }
+     }
+
+    // Prepare -> Função de proteção.
+    public function Prepare($str, $type=''){
+            
+    switch($type){
+        case 'email': 
+            $alt = '|@|.';
+            break;
+
+        case 'secure':
+            # $str[0] => Senha atual.
+            # $str[1] => Valor novo.
+            # $str[2] => Coluna no banco.
+
+            # A senha é a mesma que a registrada no sistema?
+            if($this->Senha($this->User('email'),$str[0]) == $this->User('senha')) return $str[1];
+            else return $this -> User($str[2]);
+            break;
+
+        case 'imagem':
+            # A imagem que aparece será salva em uma pasta para imagens.
+            return '';
+            break;
+
+        default:
+            // Retorna apenas letras e números
+            $alt = '';
+            break;
+    }
+
+    $secure = preg_replace('/[^[:alnum:]'.$alt.'_]/', '',$str);
+    $secure = utf8_encode($secure);
+    return $secure;
+}
+
+public function Upload($nomeInput, $tipo = '*', $tamanho = '*', $uploadLoc = ''){
+    $arquivo = $_FILES[$nomeInput];
+    $tipoDoArquivo = $arquivo['type'];
+    $tamanhoDoArquivo = $arquivo['size'];
+
+    if(empty($uploadLoc))  $uploadLoc = realpath(__DIR__ . '/..').$this->Config('saoe')->{"upload_dir"};
+    #if(($tipoDoArquivo != $tipo) && ($tipo != '*')) return 'a';
+    if(($tamanhoDoArquivo > $tamanho) && ($tamanho != '*'))  return 'b';
+    if(!move_uploaded_file($arquivo["tmp_name"], $uploadLoc)) return 'c';
+    return 1;
+}
+
+public function Senha($email, $senha){
+    $secure = md5(sha1($email).sha1($senha));
+    return $secure;
+}
    }

@@ -7,9 +7,9 @@
         
         #Directories
         $directorys = array(
-            $_SERVER['DOCUMENT_ROOT'].'/controller/',
-            $_SERVER['DOCUMENT_ROOT'].'/view/',
-            $_SERVER['DOCUMENT_ROOT'].'/model/'
+            (__DIR__).'/controller/',
+            (__DIR__).'/view/',
+            (__DIR__).'/model/'
         );
         
         foreach($directorys as $directory)

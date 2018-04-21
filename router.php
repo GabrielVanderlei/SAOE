@@ -15,7 +15,7 @@
         public function __construct(){
             session_start();
             $this -> vars = [];
-            $this -> returnData = '';
+            $this -> returnData = [];
             $this -> found = 0;
             $this -> pass = [];
             $this -> pubData = '';
@@ -33,7 +33,7 @@
         }
 
         function setPass($passDir){
-            $this -> pass[$passDir] = 1;
+            $this -> pass[substr($this->pubData, 1).'/'.$passDir] = 1;
         }
 
         function setVar($var, $content){
@@ -44,7 +44,6 @@
             $routes = explode('/', $uri);
             unset($routes[0]);
             $routes = array_values($routes);
-
             if(count($routes) > 0){
                 if($routes[(count($routes) - 1)] == ''){
                     unset($routes[(count($routes) - 1)]);
@@ -92,21 +91,26 @@
                             $atualUrl[$i] = $this -> url[$i];
                             $pData[$matches[1]] = $this -> url[$i];
                         }
-
-                        if(isset($this -> returnData['/'.$u[1]])){
-                            foreach($this -> returnData['/'.$u[1]] as $key => $val){
+                        
+                        if(isset($this -> returnData['/'.$u[0]])){
+                            foreach($this -> returnData['/'.$u[0]] as $key => $val){
                                 $pData[$key] = $val;
                             }
                         }
 
                         $u[0] .= $atualUrl[$i].'/';
                         $u[1] .= $this -> url[$i].'/';
-
+                        
                         if(isset($this -> pass[$u[1]])){
-                            $this -> found++;
-                            header("Content-Type: text/css; ");
-                            include('public/'.$this -> httpDeck);
-                            exit();
+                            $atURL = str_replace(substr($this->pubData, 1), '', $this->httpDeck);
+                            
+                            if(filesize(realpath(__DIR__ . '/.').'/public'.$atURL) > 0){
+                                $this -> found++;
+                                header("Content-Type: text/css; ");
+                                include(realpath(__DIR__ . '/.').'/public'.$atURL);
+                                exit();
+                            }
+
                         }
 
                         if(
@@ -124,12 +128,14 @@
         }
 
         function GET($str, $fn){
-            preg_match('@[/]&(.*)[/]@i',$str, $matches);
+            preg_match('@^(?:\/)[\&?]([^/]+)@i',$str, $matches);
             if(!empty($matches[1])){
-                foreach($this -> vars[$matches[1]] as $key){
-                    $val = str_replace('&'.$matches[1], $key, $str);
-                    $this -> returnData[$val][$matches[1]] = $key;
-                    $this -> DT($val, $fn);
+                if(isset($this -> vars[$matches[1]])){
+                    foreach($this -> vars[$matches[1]] as $key){
+                        $vals = str_replace('&'.$matches[1], $key, $str);
+                        $this -> returnData[$this->pubData.$vals][$matches[1]] = $key;
+                        $this -> DT($vals, $fn);
+                    }
                 }
             }
             else{

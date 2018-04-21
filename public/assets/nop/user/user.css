@@ -1,0 +1,42 @@
+.hdeck {
+    padding: 10%;
+}
+
+.hdeck .title {
+    font-size:  24px;
+    font-weight:  bold;
+}
+
+.description {
+    font-size:  20px;
+}
+
+.option a {
+    color: black;
+    display:  inline-block;
+    text-decoration:  none;
+    font-weight:  bold;
+    border-bottom:  1px solid black;
+}
+
+.hdeck .option {
+    margin:  5px 0;
+}
+
+form input {
+    width: 37%;
+    border: none;
+    border-bottom:  1px solid black;
+    padding: 9px;
+    font-size:  21px;
+    outline: none;
+    font-family: 'Segoe UI';
+    display:  block;
+    margin:  17px 0;
+}
+
+input.sendButton {
+    width:  200PX;
+    background:  black;
+    color:  white;
+}

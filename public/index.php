@@ -1,10 +1,15 @@
 <?php
-    
+
     #Controle de Roteamento
-    include $_SERVER['DOCUMENT_ROOT'].'/router.php';
-    include $_SERVER['DOCUMENT_ROOT'].'/config.php';
+    include '../router.php';
+    include '../config.php';
+    
+    $file = file_get_contents(realpath(__DIR__ . '/..')."/configuration/saoe.json");
+    $json = json_decode($file, 1);
 
     $router = new Router();
+    $router -> setPublic($json['public']);
+    
     $router -> setPass("assets/");
 
     $router -> setVar("type", [
@@ -42,6 +47,10 @@
         header("location: /painel");
     });
 
+    $router -> GET('/&type/logout', function($data){
+        header("location: ../logout");
+    });
+
     $router -> GET('/&type/login', function($data){
         $controller = new UserController($data['type']);
         $controller -> Login();
@@ -63,6 +72,29 @@
     });
 
     $router -> GET('/&type/painel', function($data){
+        header("location: painel/geral");
+    });
+
+    $router -> GET('/&type/painel/{area}', function($data){
+        $_SESSION['area'] = $data['area'];
         $controller = new PainelController();
         $controller -> Painel();
     });
+
+    $router -> GET('/&type/alterar', function($data){
+        header("location: ../painel/geral");
+    });
+
+    $router -> GET('/&type/alterar/{area}', function($data){
+        $controller = new AlterarController($data['area']);
+        $controller -> Alterar();
+    });
+    
+    $router -> GET('/&type/enviar/{area}', function($data){
+        $_SESSION['enviar'] = $data['area'];
+        $controller = new EnviarController($data['area']);
+        $controller -> Enviar();
+    });
+
+
+

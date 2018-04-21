@@ -1,6 +1,6 @@
 <?php
     #DatabaseHelper
-    require $_SERVER['DOCUMENT_ROOT'].'/class/databaseHelper.php';
+    require(realpath(__DIR__ . '/..').'/class/databaseHelper.php');
 
    class Model
    {

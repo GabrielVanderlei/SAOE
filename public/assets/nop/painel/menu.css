@@ -1,0 +1,120 @@
+
+.list {}
+
+.menu {
+    float: left;
+    font-size: 20px;
+    margin: 44px;
+    width: 30%;
+    border-radius:  3px;
+    background:  white;
+    padding: 17px;
+    border:  1px solid rgb(210, 210, 210);
+}
+
+.menu .opt {
+    padding: 0px 13px;
+    margin: 0 0 17px;
+    display: block;
+    font-size: 16px;
+    text-decoration: none;
+    color: black;
+}
+
+.menu .opt.active {
+    font-size: 19px;
+    font-weight:  bold;
+}
+
+h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight:  normal;
+}
+
+h2 {
+    font-size:  18px;
+    font-weight: normal;
+    padding:  0;
+    margin: 10px 0 0;
+}
+
+p {
+    margin:  0;
+    padding: 0;
+}
+
+
+.title {}
+
+.error .title {
+    font-size: 67px;
+}
+
+.sub {
+    font-weight:  normal;
+    font-size: 17px;
+}
+
+.area {
+    float: left;
+    padding: 50px 3%;
+    width: 37%;
+}
+
+.l {
+    font-size: 22px;
+    padding: 20px 0 0px;
+    font-family: Arial;
+}
+
+label {
+    font-size: 16px;
+    padding: 3px 0;
+}
+
+input {
+    border:  1px solid rgb(210, 210, 210);
+    padding: 7px 9px;
+    border-radius: 3px;
+    font-size: 15px;
+    margin: 5px 0;
+    width:  100%;
+}
+
+.area * {
+    display:  inline-grid;
+    width:  100%;
+}
+
+input#perfil {}
+
+.back{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 220px;
+    z-index: -1;
+    background: rgb(240, 240, 240);
+    border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+.button {
+    width: 200px;
+    padding: 0px 15px;
+    text-align: center;
+    margin: 15px;
+    border-radius: 40px;
+    background: rgb(240, 240, 240);
+    border: 1px solid rgb(220, 220, 220);
+}
+
+.jump{
+    margin: 0 0 30px;
+}
+
+
+input, textarea {
+    width: 100%!important;
+}

@@ -1,0 +1,46 @@
+body {
+    font-family: 'Segoe UI';
+    font-size:  16px;
+    margin:  0;
+    padding:  0;
+}
+
+.box .we {
+    font-size: 20px;
+    display:  inline-block;
+    font-weight:  bold;
+    padding: 9px  15px;
+    text-decoration: none;
+    color: white;
+}
+
+.box {
+    background: black;
+    color:  white;
+    text-align: left;
+}
+
+.box .title {
+    display:  inline-block;
+    font-size:  16px;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+.box .user {
+    font-weight:  bold;
+    font-size: 15px;
+    display:  inline-block;
+    text-transform:  uppercase;
+    padding: 15px;
+    float:  right;
+}
+
+.box a.opt {
+    color: black;
+    background:  white;
+    padding:  1px 9px;
+    margin:  9px;
+    border-radius: 3px;
+    text-decoration:  none;
+}

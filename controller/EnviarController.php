@@ -1,7 +1,7 @@
-<?php
+<?php 
     include 'Controller.php';
 
-    class PainelController extends Controller
+    class EnviarController extends Controller
     {
         public $controller;
         public $area;
@@ -11,12 +11,12 @@
             $this -> controller -> verificarLogin(0);
         }
         
-        public function Painel()
+        public function Enviar()
         {
             $this -> controller -> setConfig([
                 'title' => 'Eventos',
                 'link' => [ ['stylesheet','/assets/css/painel/menu.css'] ],
-                'template' => 'painel/index.php',
+                'template' => 'enviar/index.php',
                 'version' => time() #Para testes o 'time' pode ser usado.
             ]);
           
