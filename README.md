@@ -2,6 +2,9 @@
 ## Sistema de administração e organização de eventos acadêmicos Open Source
 Já imaginou poder controlar seus eventos de forma simples, rápida, gratuita e com total controle? Esse é o objetivo do projeto SAOE, com um design simples e direto esse sistema busca te auxiliar no controle dos artigos que são enviados ao seu evento.
 
+## Testar
+Você pode testar o sistema em http://bit.ly/saoe-iidv
+
 ## Wikis
 Possuimos informações adicionais nas wikis do projeto, fique a vontade para conferir.
 
