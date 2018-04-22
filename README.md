@@ -4,6 +4,9 @@ Já imaginou poder controlar seus eventos de forma simples, rápida, gratuita e 
 
 ## Testar
 Você pode testar o sistema em http://bit.ly/saoe-iidv
+- Para testar um palestrante: usuário palestrante@adm.com e senha 123456
+- Para testar um avaliador: usuário avaliador@adm.com e senha 123456
+- Para testar um organizador: usuário adm@adm.com e senha 123456
 
 ## Wikis
 Possuimos informações adicionais nas wikis do projeto, fique a vontade para conferir.
