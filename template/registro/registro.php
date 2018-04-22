@@ -4,9 +4,11 @@
     <div class="option">
         Já possui um cadastro? <a href="./login">Logar-se</a>
     </div>
-    <div class="erro">
-        <?=$_SESSION['error'];$_SESSION['error'] = '';?>
-    </div>
+    <?php if(!empty($_SESSION['error'])): ?>
+        <div class="alert alert-danger">
+            <?=$_SESSION['error'];?>
+        </div>
+    <?php $_SESSION['error'] = '';endif; ?>
     <form action="registrar" method="post">
         <input type="hidden" name="tipo" value="<?=$_SESSION['tipo'];?>" />
         <label>

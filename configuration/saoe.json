@@ -1,5 +1,5 @@
 {
-    "public": "/SAOE",
+    "public": "/projetos/SAOE",
     "name": "SAOE",
-    "upload_dir": "\uploads"
+    "upload_dir": "/uploads"
 }

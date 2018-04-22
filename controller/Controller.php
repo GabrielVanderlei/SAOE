@@ -26,19 +26,10 @@
               '0' => '/assets/css/basic/header.css'
               ];
         
+            
          $this -> setConfig([
                 'script' => [
-                    ['text/javascript', $this->script['0']],
-<<<<<<< HEAD
-                ],
-                'link' => [
-                    ['stylesheet', $this->style['0']]
-                ]
-=======
-                )
-
->>>>>>> c82b1ff3be6cb1ebe698464ffd7d5437fc227e6b
-           ]);
+                    ['text/javascript', $this->script['0']],]]);
       }
       
       public function setConfig($arr){
@@ -129,7 +120,6 @@
       }
 
       public function User($data){
-<<<<<<< HEAD
 
           if(isset($_SESSION['usuario'])){
               if(empty($this -> dados)){
@@ -205,26 +195,4 @@ public function Senha($email, $senha){
     $secure = md5(sha1($email).sha1($senha));
     return $secure;
 }
-=======
-          if(empty($this -> dados)){
-              $model = new Model;
-              $model -> setOrdem("senha");
-              $model -> consultarBanco(
-                "usuarios", 
-                " WHERE email='".$_SESSION['usuario']['email']."' AND senha='".$_SESSION['usuario']['senha']."' ");
-              
-              $dd = $model -> verDados();
-              if(!empty($dd)){
-                $_SESSION['usuario'] = $dd['usuarios']['senha'][$_SESSION['usuario']['senha']];
-              }
-
-              else{
-                  exit("b");
-                  $_SESSION['log_err'] = "Token expirado";
-                  header("location: ../logout");}
-          }
-
-          return $_SESSION['usuario'][$data];
-      }
->>>>>>> c82b1ff3be6cb1ebe698464ffd7d5437fc227e6b
    }

@@ -1,18 +1,10 @@
-<<<<<<< HEAD
 <div class="container p-4">
     <div class="row">
         <div class="col-md-12">
             <div class="display-4">Olá, <?=ucfirst($_SESSION['type']);?>.<br />
             <small>Insira seus dados de login.</small></div>
         </div>
-=======
-<div class="hdeck">
-    <div class="title">Olá, <?=ucfirst($_SESSION['type']);?>.</div>
-    <div class="description">Insira seus dados de login.</div>
-    <div class="option">
-        Não possui um cadastro? <a href="./registro">Registrar-se</a>
->>>>>>> c82b1ff3be6cb1ebe698464ffd7d5437fc227e6b
-    </div>
+    </div><br />
     <div class="row">
         <div class="col-md-6">
             <div class="alert alert-primary">
@@ -36,5 +28,4 @@
                 <input type="submit" class="btn btn-primary" value="Enviar" />
             </form>
         </div>
-    </div>
 </div>
