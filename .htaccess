@@ -1,7 +1,12 @@
- 
+
     Options -MultiViews
     RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} \.php$ [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_URI} !^/(uploads|uploads/.*)$ [OR]
+    RewriteCond %{REQUEST_URI} !^/(/.*)$
+
     RewriteRule ^ public/index.php [QSA,L]
     
     php_value upload_max_filesize 40M

@@ -8,8 +8,7 @@
     $json = json_decode($file, 1);
 
     $router = new Router();
-    $router -> setPublic($json['public']);
-    
+    $router -> setPublic($json['public']);    
     $router -> setPass("assets/");
 
     $router -> setVar("type", [
@@ -28,6 +27,16 @@
         $controller -> Inicial();
     });
     
+    $router -> GET('/uploads/{file}', function($data){
+        $file = (realpath(__DIR__ . '/..')."/uploads/".$data['file']);
+        header("Content-type: ".filetype($file));
+        header("Content-Disposition: inline; filename=".$data['file']."");
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . filesize($file));
+        header('Accept-Ranges: bytes');
+        readfile($file);
+    });
+
     $router -> GET('/logout', function(){
         $controller = new UserController('off');
         $controller -> Logout();
@@ -93,6 +102,18 @@
     $router -> GET('/&type/enviar/{area}', function($data){
         $_SESSION['enviar'] = $data['area'];
         $controller = new EnviarController($data['area']);
+        $controller -> Enviar();
+    });
+
+    $router -> GET('/&type/sobre/{id}', function($data){
+        if(!empty($data['id'])): 
+            $_SESSION['enviar'] = 'ver_obra';
+            $_SESSION['envio_id'] = $data['id'];
+        else:
+            $_SESSION['enviar'] = '';
+        endif;
+
+        $controller = new EnviarController();
         $controller -> Enviar();
     });
 

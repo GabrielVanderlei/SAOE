@@ -22,6 +22,10 @@
                 case 'trabalhos':
                     $this -> Trabalhos();
                     break;
+
+                case 'avaliar':
+                    $this -> Avaliar();
+                    break;
             }
         } 
 
@@ -78,23 +82,54 @@
                 'autor' => $this->controller->User("nome")." ".$this->controller->User("sobrenome"),
                 'autorid' => $this->controller->User("id"),
                 'enviadoem' => $this->controller->Prepare(time()),
-                'titulo' => $this->controller->Prepare($_POST['titulo']),
-                'descricao' => $this->controller->Prepare($_POST['descricao']),
+                'titulo' => $this->controller->Prepare($_POST['titulo'], 'all'),
+                'descricao' => $this->controller->Prepare($_POST['descricao'], 'all'),
                 'arquivo' => $this->controller->Upload('arquivo', 'pdf', 31457280),
-                'area' => $this->controller->Prepare($_POST['area']),
+                'area' => $this->controller->Prepare($_POST['area'], 'number'),
                 ];
 
-            print_r($form);
-            exit();
             $model = new Model;
             $model -> alterarBanco(
-                "INSERT INTO  
+                " INSERT INTO  
                  trabalhos ( autor, autorid, enviadoem, titulo, descricao, arquivo, area ) 
                  VALUES ( '".$form["autor"]."','".$form["autorid"]."','".$form["enviadoem"]."','".$form["titulo"]."','".$form["descricao"]."','".$form["arquivo"]."','".$form["area"]."' ) "
             );
 
-            header('location: ../painel/sobre');
+            $model -> alterarBanco(
+                " UPDATE usuarios
+                    SET trabalhos = '".($this->controller->User("trabalhos") + 1)."'  
+                    WHERE id = '".($this->controller->User("id"))."' "
+            );
+
+            header('location: ../sobre/'.($this->controller->User("trabalhos") + 1));
         }
 
+        public function Avaliar(){
+            if(($this->controller->User("tipo") != 'avaliador')&&($this->controller->User("tipo") != 'organizador'))
+                exit("Você não pode acessar essa área.");
+
+            $form = [
+                'nota' => $this->controller->Prepare($_POST['nota'], 'all'),
+                'comentarios' => $this->controller->Prepare($_POST['descricao'], 'all'),
+                'avaliador' => $this->controller->User("nome")." ".$this->controller->User("sobreome"),
+                'avaliadorid' => $this->controller->User("id"),
+                'avaliadoem' => time()
+            ];
+
+            $model = new Model;
+            $model -> alterarBanco(
+                " UPDATE trabalhos 
+                    SET nota='".$form['nota']."', 
+                        comentarios='".$form['comentarios']."', 
+                        avaliador='".$form['avaliador']."', 
+                        avaliadorid='".$form['avaliadorid']."', 
+                        avaliadoem='".$form['avaliadoem']."',
+                        avaliado='1' 
+                    WHERE id='".$_POST['id']."'
+                "
+            );
+
+            header('location: ../sobre/'.$_POST['id']);
+        }
     }
 ?>

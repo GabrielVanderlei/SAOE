@@ -1,3 +1,9 @@
+<?php
+    $model = new Model;
+    $model -> consultarBanco("tipos");
+    $dados = $model -> verDados();
+?>
+
 <div class="container p-4">
     <div class="row">
         <div class="col-md-12">
@@ -18,7 +24,11 @@
                 </div>
                 <div class="form-group">
                     <label for="descricao">Área de atuação</label>
-                    <input class="form-control" id="area" type="text" placeholder="A área de atuação de seu artigo." name="area"/>
+                    <select class="form-control" id="area" name="area">
+                        <?php foreach($dados['tipos'] as $key):?>
+                        <option value="<?=$key['id'];?>"><?=$key['valor']?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="arquivo">O Arquivo</label>

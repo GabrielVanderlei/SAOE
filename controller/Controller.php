@@ -163,9 +163,13 @@
             else return $this -> User($str[2]);
             break;
 
-        case 'imagem':
-            # A imagem que aparece será salva em uma pasta para imagens.
-            return '';
+        case 'number':
+            if(!is_numeric($str)) return 0;
+            else return $str;
+            break;
+
+        case 'all':
+            return $str;
             break;
 
         default:
@@ -182,13 +186,14 @@
 public function Upload($nomeInput, $tipo = '*', $tamanho = '*', $uploadLoc = ''){
     $arquivo = $_FILES[$nomeInput];
     $tipoDoArquivo = $arquivo['type'];
+    $patch = ["application/pdf" => "pdf"];
     $tamanhoDoArquivo = $arquivo['size'];
 
-    if(empty($uploadLoc))  $uploadLoc = realpath(__DIR__ . '/..').$this->Config('saoe')->{"upload_dir"};
+    if(empty($uploadLoc))  $uploadLoc = realpath(__DIR__ . '/..').$this->Config('saoe')->{"upload_dir"}."/".$this->User("id")."-".($this->User("trabalhos") + 1).".".$patch[$tipoDoArquivo];
     #if(($tipoDoArquivo != $tipo) && ($tipo != '*')) return 'a';
     if(($tamanhoDoArquivo > $tamanho) && ($tamanho != '*'))  return 'b';
     if(!move_uploaded_file($arquivo["tmp_name"], $uploadLoc)) return 'c';
-    return 1;
+    return ($this->User("trabalhos") + 1);
 }
 
 public function Senha($email, $senha){

@@ -1,5 +1,6 @@
 {
-    "public": "/projetos/SAOE",
+    "public": "/SAOE",
     "name": "SAOE",
-    "upload_dir": "/uploads"
+    "upload_dir": "/uploads",
+    "min_nota": 6
 }
