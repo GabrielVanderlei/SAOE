@@ -101,12 +101,15 @@
                     WHERE id = '".($this->controller->User("id"))."' "
             );
 
-            header('location: ../sobre/'.($this->controller->User("trabalhos") + 1));
+            $model -> consultarBanco("trabalhos", " WHERE autorid='".$this->controller->User("id")."' AND enviadoem='".$form['enviadoem']."' ");
+            $dados = $model->verDados();
+
+            header('location: ../sobre/'.$dados['trabalhos']['0']['id']);
         }
 
         public function Avaliar(){
             if(($this->controller->User("tipo") != 'avaliador')&&($this->controller->User("tipo") != 'organizador'))
-                exit("Você não pode acessar essa área.");
+                $this->controller->Erro();
 
             $form = [
                 'nota' => $this->controller->Prepare($_POST['nota'], 'all'),

@@ -1,11 +1,20 @@
 <?php 
     $model = new Model;
-    $model -> consultarBanco("trabalhos", " WHERE area='".$this->controller->User("area")."' AND avaliado ^= '1' AND autorid ^= '".$this->controller->User("id")."' ");
+    if($this->controller->User("tipo") != "organizador"):
+        $model -> consultarBanco("trabalhos", " WHERE area='".$this->controller->User("area")."' AND avaliado ^= '1' AND autorid ^= '".$this->controller->User("id")."' ");
+        $model -> consultarBanco("tipos", " WHERE id='".$this->controller->User("area")."' ");
+    else:
+        $model -> consultarBanco("trabalhos", " WHERE avaliado ^= 1 ");
+    endif;
     $dados = $model -> verDados();
     $c = 0;
 ?>
 <div class="display-4">Pendentes<br />
-<small>Trabalhos na sua área que estão aguardando análise.</small></div>
+<small>Trabalhos que estão aguardando aprovação.</small>
+<?php if($this->controller->User("tipo") == "avaliador"): ?>
+<h3 class="p-2">(Na área de <?=$dados['tipos'][0]['valor']?>)</h3>
+<?php endif; ?>
+</div>
 <br />
 <?php if(empty($dados['trabalhos'])):?>
     <div class="jumbotron bg-light">

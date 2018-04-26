@@ -200,4 +200,27 @@ public function Senha($email, $senha){
     $secure = md5(sha1($email).sha1($senha));
     return $secure;
 }
+
+public function Utils($str, $type){
+    switch($type):
+        case 'mes':
+            $mes = [
+                "01" => "janeiro",
+                "02" => "fevereiro",
+                "03" => "março",
+                "04" => "abril",
+                "05" => "maio",
+                "06" => "junho",
+                "07" => "julho",
+                "08" => "agosto",
+                "09" => "setembro",
+                "10" => "outubro",
+                "11" => "novembro",
+                "12" => "dezembro",
+            ];
+
+            return $mes[$str];
+            break;
+    endswitch;
+}
    }

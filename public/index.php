@@ -117,5 +117,20 @@
         $controller -> Enviar();
     });
 
+    $router -> GET('/&type/painel/ativar/{id}', function($data){
+        $controller = new EnviarController();
+        $controller -> Ativar($data['id']);
+    });
+
+    $router -> GET('/&type/painel/desativar/{id}', function($data){
+        $controller = new EnviarController();
+        $controller -> Desativar($data['id']);
+    });
+
+    $router -> GET('/&type/painel/tipo/alterar', function($data){
+        $controller = new EnviarController();
+        $controller -> Categoria();
+    });
+
 
 
