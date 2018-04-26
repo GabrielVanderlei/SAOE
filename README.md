@@ -75,8 +75,21 @@ CREATE TABLE `usuarios` (
   `complemento` varchar(45) DEFAULT NULL,
   `perfil` varchar(45) DEFAULT NULL,
   `trabalhos` int(11) DEFAULT NULL,
+  `area` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE `tipos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `valor` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO usuarios.tipos (id, valor)
+VALUES ('0', 'Outros')
+
 ```
 ## Após isto...
 Após realizar a configuração do banco de dados, faça o seguinte:
