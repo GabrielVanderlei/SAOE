@@ -8,7 +8,7 @@
     $json = json_decode($file, 1);
 
     $router = new Router();
-    $router -> setPublic($json['public']);    
+    $router -> setPublic($json['public']);     
     $router -> setPass("assets/");
 
     $router -> setVar("type", [

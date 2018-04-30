@@ -1,7 +1,7 @@
 <div class="container p-4">
     <div class="row">
         <div class="col-md-12">
-            <div class="display-4">Olá, <?=ucfirst($_SESSION['type']);?>.<br />
+            <div class="display-4">Olá, <?=ucfirst($_SESSION['tipo']);?>.<br />
             <small>Insira seus dados de login.</small></div>
         </div>
     </div><br />
@@ -10,11 +10,11 @@
             <div class="alert alert-primary">
                 Não possui um cadastro? <a href="./registro">Registrar-se</a>
             </div>
-            <?php if(!empty($_SESSION['error'])): ?>
+            <?php if(!empty($_SESSION['err'])): ?>
                 <div class="alert alert-danger">
-                    <?=$_SESSION['error'];?>
+                    <?=$_SESSION['err'];?>
                 </div>
-            <?php $_SESSION['error'] = '';endif; ?>
+            <?php $_SESSION['err'] = '';endif; ?>
             <form action="logar" method="post">
                 <input type="hidden" value="<?=$this -> controller -> CSR();?>" name="CSR" />
                 <div class="form-group">

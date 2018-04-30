@@ -1,9 +1,9 @@
 <?php 
     $model = new Model;
     if($this->controller->User("tipo") != "organizador"):
-        $model -> consultarBanco("trabalhos", " WHERE area='".$this->controller->User("area")."' AND avaliado = '1' AND autorid ^= '".$this->controller->User("id")."' ");
+        $model -> consultarBanco("trabalhos", " WHERE area='".$this->controller->User("area")."' AND avaliado = '1' AND autorid <> '".$this->controller->User("id")."' ");
     else:
-        $model -> consultarBanco("trabalhos", " WHERE avaliado = 1 ");
+        $model -> consultarBanco("trabalhos", "  ");
     endif;
     $dados = $model -> verDados();
     $c = 0;

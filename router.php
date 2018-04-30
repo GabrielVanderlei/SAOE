@@ -21,6 +21,20 @@
             $this -> pubData = '';
             $this -> httpDeck = $this -> atualHTTP($_SERVER['REQUEST_URI']);
             $this -> url = $this -> URLPrep($_SERVER['REQUEST_URI']);
+
+            # Sistema de histórico de URL integrado.
+            
+            if(!isset(explode('.', $_SERVER['REQUEST_URI'])[1])):
+                if(!isset($_SESSION['location_counter'])): 
+                    $_SESSION['location_counter'] = 0;
+                    $_SESSION['last_location'] = "404";
+                else: 
+                    $_SESSION['location_counter']++;
+                    $_SESSION['last_location'] = $_SESSION['location_history'][($_SESSION['location_counter'] - 1)];
+                endif;
+            
+                $_SESSION['location_history'][$_SESSION['location_counter']] = $_SERVER['REQUEST_URI'];
+            endif;
         }
 
         function atualHTTP($url){
@@ -103,14 +117,14 @@
                         
                         if(isset($this -> pass[$u[1]])){
                             $atURL = str_replace(substr($this->pubData, 1), '', $this->httpDeck);
-                            
-                            if(filesize(realpath(__DIR__ . '/.').'/public'.$atURL) > 0){
+                            $url = realpath(__DIR__ . '/.').'/public'.$atURL;
+
+                            if(file_exists($url)):
                                 $this -> found++;
-                                header("Content-Type: text/css; ");
+                                header("Content-Type: ".$this->getType($url)."; ");
                                 include(realpath(__DIR__ . '/.').'/public'.$atURL);
                                 exit();
-                            }
-
+                            endif;
                         }
 
                         if(
@@ -125,6 +139,19 @@
 
                 }
             }
+        }
+
+        function getType($url){
+            $ends = explode(".", $url);
+            $type = end($ends);
+            switch($type):
+                case 'css':
+                    return 'text/css';
+                    break;
+                case 'js':
+                    return 'text/js';
+                    break;
+            endswitch;
         }
 
         function GET($str, $fn){

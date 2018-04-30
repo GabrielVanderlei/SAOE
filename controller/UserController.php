@@ -16,16 +16,6 @@
             }
         }
 
-        public function Prepare($str, $type=''){
-            // Retorna apenas letras e números
-            if($type == 'email') $alt = '|@|.';
-            else $alt = '';
-
-            $secure = preg_replace('/[^[:alnum:]'.$alt.'_]/', '',$str);
-            $secure = utf8_encode($secure);
-            return $secure;
-        }
-
         public function Senha($email, $senha){
             $secure = md5(sha1($email).sha1($senha));
             return $secure;
@@ -41,7 +31,7 @@
                     $this ->controller->Erro(); 
                 }
                 else{
-                    $_SESSION['type'] = $type;
+                    $_SESSION['tipo'] = $type;
                     $this -> type = $type;
                 }
             }
@@ -53,7 +43,6 @@
         {         
             $this -> controller -> setConfig([
                 'title' => 'Eventos',
-                'link' => [ ['stylesheet','/assets/css/user/user.css'] ],
                 'template' => 'registro/registro.php',
                 'version' => time() #Para testes o 'time' pode ser usado.
             ]);
@@ -71,7 +60,6 @@
         {         
             $this -> controller -> setConfig([
                 'title' => 'Eventos',
-                'link' => [ ['stylesheet','/assets/css/user/user.css'] ],
                 'template' => 'login/login.php',
                 'version' => time() #Para testes o 'time' pode ser usado.
             ]);
@@ -88,23 +76,18 @@
       public function Logar()
       {
 
-          if(!$this -> Verificar($_POST['email'], 'email')){ $_SESSION['error'] = 'Email ou senha incorretos.';header('location: login');};
-          if(!$this -> Verificar($_POST['senha'], 'senha')){ $_SESSION['error'] = 'Email ou senha incorretos.';header('location: login');};
-          
           $form = [
-            "email" => $this->controller->Prepare($_POST['email'], 'email'),
-            "senha" => $this->controller->Senha($_POST['email'], $_POST['senha'])];
+            "email" => $this->controller->PrepareUser($_POST['email'], 'email'),
+            "senha" => $this->controller->PrepareUser($_POST['senha'], 'senha', '', $_POST['email'])];
 
           $model = new Model;
-
           $model -> setOrdem("senha");
-          
           $model -> consultarBanco(
             "usuarios",
             " WHERE 
                 email='".$form['email']."' AND 
                 senha='".$form['senha']."' AND 
-                tipo='".$_SESSION['type']."'");
+                tipo='".$_SESSION['tipo']."'");
 
           $dd = $model -> verDados();
           if(!empty($dd)){
@@ -119,30 +102,34 @@
 
       public function Registrar()
       {
-          if(!$this -> Verificar($_POST['email'], 'email')){ $_SESSION['error'] = 'Seu e-mail não está corretamente formatado.';header('location: registro');exit();};
-          if(!$this -> Verificar($_POST['senha'], 'senha')){ $_SESSION['error'] = 'Sua senha não cumpre as exigências requiridas.';header('location: registro');exit();};
+          # Se for um avaliador
+          if($_POST['tipo'] == 'avaliador'):
+            $form['area'] = $this->controller->PrepareUser($_POST['area'], 'numero');
+          endif;
+
+          if($_POST['tipo'] != 'palestrante'):
+            $form["lattes"] = $this->controller->PrepareUser($_POST['lattes'], 'url', 'Lattes');
+          endif;
 
           $form = [
-            "email" => $this->controller->Prepare($_POST['email'], 'email'),
-            "senha" => $this->controller->Senha($_POST['email'], $_POST['senha']),
-            "tipo" => $this->controller->Prepare($_POST['tipo'], 'tipo'),   
-            "nascimento" => $this->controller->Prepare($_POST['nascimento'], 'tipo'),   
-            
-            "nome" => $this->controller->Prepare($_POST['nome'], 'tipo'),   
-            "sobrenome" => $this->controller->Prepare($_POST['sobrenome'], 'tipo'),   
-            "telefone" => $this->controller->Prepare($_POST['telefone'], 'tipo'),   
-            
-            "rg" => $this->controller->Prepare($_POST['rg'], 'rg'),
-            "cpf" => $this->controller->Prepare($_POST['cpf'], 'cpf'),
-            
-            "cep" => $this->controller->Prepare($_POST['cep'], 'cep'),
-            "rua" => $this->controller->Prepare($_POST['rua'], 'cep-logradouro'),
-            "bairro" => $this->controller->Prepare($_POST['bairro'], 'cep-bairro'),
-            "estado" => $this->controller->Prepare($_POST['estado'], 'cep-estado'),
-            
-            "img" => $this->controller->Prepare($_POST['img'], 'string'),
-            "lattes" => $this->controller->Prepare($_POST['lattes'], 'string'),
-            "ativo" => (($_SESSION['type'] == 'palestrante')?1:0)];
+            "tipo" => $this->controller->PrepareUser($_POST['tipo'], 'tipo'),     
+            "nome" => $this->controller->PrepareUser($_POST['nome'], 'texto'),  
+            "nascimento" => $this->controller->PrepareUser($_POST['nascimento'], 'data'), 
+            "rg" => $this->controller->PrepareUser($_POST['rg'], 'texto'),
+            "cpf" => $this->controller->PrepareUser($_POST['cpf'], 'cpf'),
+            "email" => $this->controller->PrepareUser($_POST['email'], 'email', $_POST['cemail']),
+            "telefone" => $this->controller->PrepareUser($_POST['telefone'], 'telefone'), 
+            "senha" => $this->controller->PrepareUser($_POST['senha'], 'senha', $_POST['csenha'], $_POST['email']),
+            "cep" => $this->controller->PrepareUser($_POST['cep'], 'numero'),
+            "estado" => $this->controller->PrepareUser($_POST['estado'], 'texto'),
+            "municipio" => $this->controller->PrepareUser($_POST['municipio'], 'texto'),
+            "bairro" => $this->controller->PrepareUser($_POST['bairro'], 'texto'),
+            "rua" => $this->controller->PrepareUser($_POST['rua'], 'texto'),
+            "numero" => $this->controller->PrepareUser($_POST['numero'], 'texto'),
+            "complemento" => $this->controller->PrepareUser($_POST['complemento'], 'texto'),
+            "img" => 0,
+            "ativo" => (($_SESSION['tipo'] == 'palestrante')?1:0)
+          ];
 
           $model = new Model;
           $model -> consultarBanco(
@@ -157,11 +144,11 @@
                 " INSERT INTO 
                      usuarios 
                      ( email, senha, tipo, nascimento, 
-                      nome, sobrenome, telefone,
+                      nome, telefone,
                       rg, cpf, 
-                      cep, rua, bairro, estado,
+                      cep, complemento, numero, rua, bairro, municipio, estado,
                       img, lattes,
-                      ativo) 
+                      ativo ) 
                      
                      VALUES (
                          '".$form['email']."',
@@ -169,24 +156,26 @@
                          '".$form['tipo']."',
                          '".$form['nascimento']."',
                          '".$form['nome']."',
-                         '".$form['sobrenome']."',
                          '".$form['telefone']."',
                          '".$form['rg']."',
                          '".$form['cpf']."',
                          '".$form['cep']."',
+                         '".$form['complemento']."',
+                         '".$form['numero']."',
                          '".$form['rua']."',
                          '".$form['bairro']."',
+                         '".$form['municipio']."',
                          '".$form['estado']."',
                          '".$form['img']."',
                          '".$form['lattes']."',
-                         '".$form['ativo']."') ");
+                         '".$form['ativo']."' ) ");
                          
                         $_SESSION['usuario'] = $form;
                         header("location: painel");
           }
 
           else{
-              $_SESSION['error'] = 'Email já cadastrado.';
+              $_SESSION['err'] = 'Email já cadastrado.';
               header("location: registro");
           }
       }

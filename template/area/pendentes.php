@@ -1,10 +1,10 @@
 <?php 
     $model = new Model;
     if($this->controller->User("tipo") != "organizador"):
-        $model -> consultarBanco("trabalhos", " WHERE area='".$this->controller->User("area")."' AND avaliado ^= '1' AND autorid ^= '".$this->controller->User("id")."' ");
+        $model -> consultarBanco("trabalhos", " WHERE area='".$this->controller->User("area")."' AND avaliado <> '1' AND autorid <> '".$this->controller->User("id")."' ");
         $model -> consultarBanco("tipos", " WHERE id='".$this->controller->User("area")."' ");
     else:
-        $model -> consultarBanco("trabalhos", " WHERE avaliado ^= 1 ");
+        $model -> consultarBanco("trabalhos", " WHERE avaliado <> '1' ");
     endif;
     $dados = $model -> verDados();
     $c = 0;
@@ -22,7 +22,7 @@
         <small>Envie mais artigos para ve-los aqui.</small><br/></h1>
     </div>
 <?php else: foreach($dados['trabalhos'] as $key):?>
-    <?php if($key['avaliado'] == 0):?>
+    <?php if($key['avaliado'] != 1):?>
         <?php if($c % 3 == 0):?>
             <div class="row">
         <?php endif; ?>
